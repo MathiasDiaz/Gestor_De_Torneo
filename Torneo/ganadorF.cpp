@@ -1,5 +1,5 @@
 #include "torneo.h"
-
+/*
 void ganador() {
     for (size_t i = 0; i < equipos.size(); i++) {
         gotoxy(68.5,18.5); cout << equipos[i] ;
@@ -7,6 +7,7 @@ void ganador() {
         system("cls");
     }
 }
+*/
 
 void limpiarBuffer(){
     cin.ignore(numeric_limits<streamsize>::max(), '\n');

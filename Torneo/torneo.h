@@ -18,12 +18,7 @@
 using namespace std;
 
 // Variables globales
-extern int numEquipos;
-extern vector<string> equipos;
-extern string entradaDeEquipos;
-extern int golA, golB;
-extern string ruta;
-extern string nombreArchivo;
+extern int numEquipos;  
 
 extern MYSQL* obj;
 
@@ -40,11 +35,11 @@ void limpiarBuffer();
 void conectar_base();
 
 //Prototipo de funciones para que se jueguen los partidos
-void partidoOctavos();
-void partidoCuartos();
-void partidoSemis();
+void partidoOctavos(int idTorneo);
+void partidoCuartos(int idTorneo);
+void partidoSemis(int idTorneo);
 void semiFinal2();
-void partidoFinal();
+void partidoFinal(int idTorneo);
 void ganador();
 
 int pedirTorneo();
@@ -56,6 +51,7 @@ void cuadro(int x1, int y1, int x2, int y2);
 void flechas (int Fx1, int Fy1, int Fx2, int Fy2,int Fx3);
 void flechasInversa (int Fx1, int Fy1, int Fx2, int Fy2,int Fx3);
 void barraDeCarga(int x, int y);
+void visualizarTorneo();
 
 //Prototipo de funciones que contiene los cuadros y flechas
 void octavosFinal();

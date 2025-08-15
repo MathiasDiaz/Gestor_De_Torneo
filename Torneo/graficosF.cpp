@@ -182,3 +182,123 @@ void flechasInversa (int Fx1,int Fy1,int Fx2,int Fy2,int Fx3){
 	gotoxy(Fx2,Fy1); cout<<"\300";	
 	}
 }
+
+void visualizarTorneo(){
+	int idTorneo;
+	stringstream s1,s2;
+	string consulta1,validacion;
+	int X=1,Y=1,X2=1,Y2=6,GX=26,GY=3.5;
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	string equipoLocal,equipoVisitante;
+	int gol1,gol2;
+	int i=1;
+	int fin;
+	bool val=true;
+		
+	idTorneo=pedirTorneo();
+	s1<<idTorneo;
+	
+	system("cls");
+	octavosFinal();
+	cuartosFinal();
+	validacion= "select count(*) from partidos where id_torneo="+s1.str()+ " and estado='finalizado'";
+	if(mysql_query(obj,validacion.c_str())==0){
+		res=mysql_store_result(obj);
+	}
+	row=mysql_fetch_row(res);
+	fin=atoi(row[0]);
+	
+	while (i<fin) {
+	s2.str(""); s2.clear();	
+	s2<<i;
+	
+	consulta1= "select e.nombre,goles_equipo1 from equipos e inner join partidos p on e.id_equipos=p.id_equipo1 where p.num_partido="+ s2.str()+" and e.id_torneo="+s1.str();
+	
+	if(mysql_query(obj,consulta1.c_str())==0){
+		res=mysql_store_result(obj);
+	}
+	row=mysql_fetch_row(res);
+	equipoLocal=row[0];
+	gol1=atoi(row[1]);
+	
+	mysql_free_result(res);
+	
+	consulta1= "select e.nombre, goles_equipo2 from equipos e inner join partidos p on e.id_equipos=p.id_equipo2 where p.num_partido="+ s2.str()+" and e.id_torneo="+s1.str();
+	
+	if(mysql_query(obj,consulta1.c_str())==0){
+		res=mysql_store_result(obj);
+	}
+	row=mysql_fetch_row(res);
+	equipoVisitante=row[0];
+	gol2=atoi(row[1]);
+	
+  	gotoxy(X,Y);
+	cout << equipoLocal << " " <<gol1;
+	gotoxy(X2,Y2);
+	cout << equipoVisitante << " "<<gol2;
+	
+	
+	if(gol1>gol2){
+		gotoxy(GX,GY);
+		cout<<equipoLocal;
+	}else{
+		gotoxy(GX,GY);
+		cout<<equipoVisitante;
+	}
+	
+	if(i<=8){
+		Y=Y+10;
+		Y2=Y2+10;
+		GY=GY+10;
+		i=i+1;
+	}else if(i<=13){
+		Y=Y+20;
+		Y2=Y2+20;
+		GY=GY+20;
+		i=i+1;
+	}else{
+		cout<<"Holi";
+		i=i+1;
+	}
+	
+    if(i==5){
+        X=131;
+        Y=1;
+        X2=131;
+        Y2=6;
+        GX=106;
+        GY=3.5;
+		}
+	if(i==9){
+		getch();
+		system("cls");
+		cuartosFinal();
+		semiFinal2();
+        X=26;
+        Y=3.5;
+        X2=26;
+        Y2=13.5;
+        GX=51;
+        GY=8.5;
+		}
+	if(i==11){
+        X=106;
+        X2=106; 
+        Y=3.5;
+        Y2=13.5;
+        GX=81;
+        GY=8.5;
+		}	
+		
+	if(i==13){
+		getch();
+		system("cls");
+	}
+		
+	}
+
+	getch();
+	system("cls");
+	
+}

@@ -21,13 +21,13 @@ void reescribirFinal(int pX1,int pY1, int pX2,int pY2);
     	//int ganadorX=26;
    	 	//int ganadorY=3.5; 	
    	 	
-void partidoOctavos() {	
+void partidoOctavos(int idTorneo) {	
 	int opcion;
 	char hayAsistencia;	
 	string tarjeta;	
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	int idTorneo,idLocal,idVisitante;	
+	int idLocal,idVisitante;	
 	stringstream s1,s2,s3,s4,s5,s6,s7,sResultado,s8;
 	string consulta1,consulta2,consulta3,consulta4,consulta5,consulta6,consulta7,consulta8,consulta9,consultaVal;
 	string equipo,equipoLocal,equipoVisitante;
@@ -37,8 +37,7 @@ void partidoOctavos() {
 	int golesLocal,golesVisitante;
 	int X=1;
 	int Y=1;	
-	
-	idTorneo=pedirTorneo();
+
 	s1<<idTorneo;
 	
 	system("cls");
@@ -332,13 +331,13 @@ void partidoOctavos() {
 }while(opcion!=0);
 }
 
-void partidoCuartos() {
-		int opcion;
+void partidoCuartos(int idTorneo) {
+	int opcion;
 	char hayAsistencia;	
 	string tarjeta;	
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	int idTorneo,idLocal,idVisitante;	
+	int idLocal,idVisitante;	
 	stringstream s1,s2,s3,s4,s5,s6,s7,sResultado,s8;
 	string consulta1,consulta2,consulta3,consulta4,consulta5,consulta6,consulta7,consulta8,consulta9,consultaVal;
 	string equipo,equipoLocal,equipoVisitante;
@@ -351,7 +350,6 @@ void partidoCuartos() {
 	int X2=26;
 	int Y2=13.5;
 	
-	idTorneo=pedirTorneo();
 	s1<<idTorneo;
 	
 	system("cls");
@@ -587,7 +585,7 @@ void partidoCuartos() {
 			int validacion;
 			
 			if(golesLocal>golesVisitante){
-				consulta7="update equipos set cuartos='S' where id_equipos="+s6.str();
+				consulta7="update equipos set semi='S' where id_equipos="+s6.str();
 				mysql_query(obj,consulta7.c_str());
 				
 				consultaVal="select count(*) from partidos where id_torneo="+s1.str()+" and num_partido="+s8.str();
@@ -615,7 +613,7 @@ void partidoCuartos() {
 				mysql_query(obj,consulta8.c_str());
 							
 			}else if(golesLocal<golesVisitante){
-				consulta7="update equipos set cuartos='S' where id_equipos="+s7.str();
+				consulta7="update equipos set semi='S' where id_equipos="+s7.str();
 				mysql_query(obj,consulta7.c_str());
 				
 				consultaVal="select count(*) from partidos where id_torneo="+s1.str()+" and num_partido="+s8.str();
@@ -659,13 +657,13 @@ void partidoCuartos() {
 }while(opcion!=0);
 }
 
-void partidoSemis() {
+void partidoSemis(int idTorneo) {
 	int opcion;
 	char hayAsistencia;	
 	string tarjeta;	
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	int idTorneo,idLocal,idVisitante;	
+	int idLocal,idVisitante;	
 	stringstream s1,s2,s3,s4,s5,s6,s7,sResultado,s8;
 	string consulta1,consulta2,consulta3,consulta4,consulta5,consulta6,consulta7,consulta8,consulta9,consultaVal;
 	string equipo,equipoLocal,equipoVisitante;
@@ -679,7 +677,6 @@ void partidoSemis() {
     int X2=6;
     int Y2=28.5;
     
-	idTorneo=pedirTorneo();
 	s1<<idTorneo;
 	
 	system("cls");
@@ -915,7 +912,7 @@ void partidoSemis() {
 			int validacion;
 			
 			if(golesLocal>golesVisitante){
-				consulta7="update equipos set cuartos='S' where id_equipos="+s6.str();
+				consulta7="update equipos set final='S' where id_equipos="+s6.str();
 				mysql_query(obj,consulta7.c_str());
 				
 				consultaVal="select count(*) from partidos where id_torneo="+s1.str()+" and num_partido="+s8.str();
@@ -943,7 +940,7 @@ void partidoSemis() {
 				mysql_query(obj,consulta8.c_str());
 							
 			}else if(golesLocal<golesVisitante){
-				consulta7="update equipos set cuartos='S' where id_equipos="+s7.str();
+				consulta7="update equipos set final='S' where id_equipos="+s7.str();
 				mysql_query(obj,consulta7.c_str());
 				
 				consultaVal="select count(*) from partidos where id_torneo="+s1.str()+" and num_partido="+s8.str();
@@ -987,33 +984,26 @@ void partidoSemis() {
 }while(opcion!=0);
 }   
 
-void partidoFinal() {
-/*
-	int posicionX1=36;
-    int posicionY1=18.5;
-    int posicionX2=101;
-    int posicionY2=18.5;
+void partidoFinal(int idTorneo) {
+
+	int X=36;
+    int Y=18.5;
+    int X2=101;
+    int Y2=18.5;
     
     int opcion;
 	char hayAsistencia;	
 	string tarjeta;	
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	int idTorneo,idLocal,idVisitante;	
-	stringstream s1,s2,s3,s4,s5,s6,s7,sResultado,s8;
-	string consulta1,consulta2,consulta3,consulta4,consulta5,consulta6,consulta7,consulta8,consulta9,consultaVal;
+	int idLocal,idVisitante;	
+	stringstream s1,s3,s4,s5,s6,s7,sResultado;
+	string consulta1,consulta2,consulta3,consulta4,consulta5,consulta6,consulta7,consulta8,consulta9;
 	string equipo,equipoLocal,equipoVisitante;
-	string resultado;
-	int numPartido,proxPartido;
+	int numPartido;
 	int camiseta1,camiseta2;
 	int golesLocal,golesVisitante;
-		
-	int X=6;
-    int Y=8.5;
-    int X2=6;
-    int Y2=28.5;
-    
-	idTorneo=pedirTorneo();
+
 	s1<<idTorneo;
 	
 	system("cls");
@@ -1029,7 +1019,7 @@ void partidoFinal() {
 	row=mysql_fetch_row(res);
 	equipoLocal=row[0];
 	
-	consulta1="select e.nombre from equipos e inner join partidos p on e.id_equipos=p.id_equipo2 where e.id_torneo="+s1.str()+" and p.num_partido=16";
+	consulta1="select e.nombre from equipos e inner join partidos p on e.id_equipos=p.id_equipo2 where e.id_torneo="+s1.str()+" and p.num_partido=15";
 	
 	if(mysql_query(obj,consulta1.c_str())==0){
 		res=mysql_store_result(obj);
@@ -1042,15 +1032,7 @@ void partidoFinal() {
 	cout << equipoLocal << " ";
 	gotoxy(X2,Y2);
 	cout << equipoVisitante << " ";
-	Y=Y+20;
-    Y2= Y2+20;
-    if(i==13){
-        X=131;
-        X2=131; 
-        Y=8.5;
-        Y2=28.5;
-	}
-	}
+	
 	getch();
 	system("cls");
 
@@ -1074,6 +1056,7 @@ void partidoFinal() {
 	row=mysql_fetch_row(res);
 	equipoVisitante=row[0];
 	idVisitante=atoi(row[1]);
+	
 	getch();
 	system("cls");
 	
@@ -1081,6 +1064,7 @@ void partidoFinal() {
 	s7<<idVisitante;
 	do{
 	cout<<equipoLocal<<" VS "<< equipoVisitante<<endl;
+	
 	menuDeJuego();
 	cin>>opcion;	
 	
@@ -1241,65 +1225,16 @@ void partidoFinal() {
 			consulta9="update partidos set estado= 'finalizado' where id_torneo="+s1.str()+ " and num_partido= "+s3.str();
 			mysql_query(obj,consulta9.c_str());
 			
-			s8.str(""); s8.clear();
-			proxPartido=(numPartido+2);
-			s8<<proxPartido;
 			int validacion;
 			
 			if(golesLocal>golesVisitante){
-				consulta7="update equipos set cuartos='S' where id_equipos="+s6.str();
+				consulta7="update equipos set final='Campeon' where id_equipos="+s6.str();
 				mysql_query(obj,consulta7.c_str());
-				
-				consultaVal="select count(*) from partidos where id_torneo="+s1.str()+" and num_partido="+s8.str();
-				
-				if (mysql_query(obj,consultaVal.c_str())==0){
-					res=mysql_store_result(obj);	
-				}
-					
-				row=mysql_fetch_row(res);
-				validacion=atoi(row[0]);
-				
-				if (validacion==1){
-					if (numPartido%2==0){
-						consulta8="update partidos set id_equipo2="+s6.str()+ " where id_torneo="+s1.str()+ " and num_partido="+s8.str();	
-					}else{
-						consulta8="update partidos set id_equipo1="+s6.str()+ " where id_torneo="+s1.str()+ " and num_partido="+s8.str();	
-					}	
-				}else{
-					if (numPartido%2==0){
-					consulta8="insert into partidos (id_torneo,num_partido,id_equipo2,goles_equipo1,goles_equipo2,estado) values("+s1.str()+","+s8.str()+","+s6.str()+",0,0,'activo' )";
-				}else{
-					consulta8="insert into partidos (id_torneo,num_partido,id_equipo1,goles_equipo1,goles_equipo2,estado) values("+s1.str()+","+s8.str()+","+s6.str()+",0,0,'activo' )";
-				}
-				}
-				mysql_query(obj,consulta8.c_str());
 							
 			}else if(golesLocal<golesVisitante){
-				consulta7="update equipos set cuartos='S' where id_equipos="+s7.str();
+				consulta7="update equipos set cuartos='Campeon' where id_equipos="+s7.str();
 				mysql_query(obj,consulta7.c_str());
-				
-				consultaVal="select count(*) from partidos where id_torneo="+s1.str()+" and num_partido="+s8.str();
-				
-				if (mysql_query(obj,consultaVal.c_str())==0){
-					res=mysql_store_result(obj);	
-				}
-				row=mysql_fetch_row(res);
-				validacion=atoi(row[0]);
-				
-				if (validacion==1){
-					if (numPartido%2==0){
-						consulta8="update partidos set id_equipo2="+s7.str()+ " where id_torneo="+s1.str()+ " and num_partido="+s8.str();	
-					}else{
-						consulta8="update partidos set id_equipo1="+s7.str()+ " where id_torneo="+s1.str()+ " and num_partido="+s8.str();
-					}	
-			    }else{
-					if (numPartido%2==0){
-						consulta8="insert into partidos (id_torneo,num_partido,id_equipo2,goles_equipo1,goles_equipo2,estado) values("+s1.str()+","+s8.str()+","+s7.str()+",0,0,'activo' )";
-					}else{
-						consulta8="insert into partidos (id_torneo,num_partido,id_equipo1,goles_equipo1,goles_equipo2,estado) values("+s1.str()+","+s8.str()+","+s7.str()+",0,0,'activo' )";
-				}
-				}
-				mysql_query(obj,consulta8.c_str());
+			
 				}
 				else{
 				cout<<"ERROR: el resultado no puede ser empate";
@@ -1316,12 +1251,8 @@ void partidoFinal() {
 			getch();
 			break;
 	}						
-}while(opcion!=0);
-}   
-*/
-    
+}while(opcion!=0);       
   }
-  
   
   
   void reescribirOctavos(int X1,int Y1,string equipo) {
@@ -1335,23 +1266,8 @@ void partidoFinal() {
         Y1=1;
 		}
   }     
-}/*
-  void reescribirCuartos(int pX1,int pY1, int pX2,int pY2) {
-	  
-  	gotoxy(pX1,pY1);
-	cout << "equipos" << " ";
-	gotoxy(pX2,pY2);
-	cout << "equipos" << " ";
-	pY1=pY1+20;
-    pY2= pY2+20;
-    if(i==2){
-        pX1=106;
-        pX2=106; 
-        pY1=3.5;
-        pY2=13.5;
-		}
-  }     
-}*/
+}
+
   void reescribirSemi(int pX1,int pY1, int pX2,int pY2) {
    for (int i=0; i<equipos.size();i += 2){
 	  
@@ -1404,3 +1320,4 @@ void menuDeJuego(){
 	cout<<"[0] Salir"<<endl;
 	cout<<"Ingrese una opcion: ";
 }
+

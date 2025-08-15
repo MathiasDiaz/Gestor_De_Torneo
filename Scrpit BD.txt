@@ -1,0 +1,128 @@
+create database torneos;
+use torneos;
+
+create table equipos(
+id_equipos int primary key not null AUTO_INCREMENT,
+id_torneo int not null,
+nombre varchar(30) not null,
+Posicion_sorteo int,
+octavos varchar(20),
+cuartos varchar(20),
+semi varchar(20),
+final varchar(20),
+foreign key (id_torneo) references torneo(id_torneos)
+);
+
+create table torneo(
+id_torneos int primary key not null,
+nombre varchar(30) not null,
+cant_participantes int not null, 
+fecha_inicio date not null,
+fecha_fin date not null
+);
+
+create table jugadores(
+id_jug int primary key not null auto_increment,
+id_equipo int not null,
+nombre varchar(25) not null,
+nombre2 varchar(25),
+apellido varchar(25) not null,
+apellido2 varchar(25),
+num_camiseta int not null,
+asistencias int,
+goles int,
+rojas int,
+amarillas int,
+foreign key (id_equipo) references equipos(id_equipos)
+);
+
+create table partidos(
+id_partidos int primary key not null auto_increment,
+id_torneo int not null,
+num_partido int not null,
+id_equipo1 int,
+id_equipo2 int,
+goles_equipo1 int,
+goles_equipo2 int,
+resultado varchar(10),
+estado varchar(20),
+foreign key (id_torneo) references torneo(id_torneos),
+foreign key(id_equipo1) references equipos(id_equipos),
+foreign key (id_equipo2) references equipos(id_equipos)
+);
+
+
+drop table partidos;
+drop table torneo;
+drop table equipos;
+drop table jugadores;
+drop table Partidos_Equipos;
+
+select * from torneo;
+select * from equipos;
+select * from partidos;
+select * from jugadores;
+
+SHOW CREATE TABLE equipos;
+SHOW CREATE TABLE torneo;
+SHOW CREATE TABLE partidos;
+SHOW CREATE TABLE jugadores;
+use torneos;
+
+select e.nombre, t.nombre from equipos e join torneo t
+on e.id_torneo=t.id_torneos where e.nombre='Manchester City';
+
+select e.nombre, t.nombre, e.id_equipos from equipos e  join torneo t on e.id_torneo=t.id_torneos where e.nombre='A';
+select count(*) from jugadores where id_equipo=1;
+
+
+insert into jugadores(id_jug,id_equipo,nombre,apellido,num_camiseta,asistencias,goles,rojas,amarillas)
+values(15,2,'Huevo','Acuña',3,0,0,0,0);
+
+UPDATE equipos SET cuartos=null  WHERE cuartos= 'S' and id_equipos>0;
+select goles_equipo1 from partidos where id_torneo=1 and num_partido=1 and id_equipo1=9 ;
+use torneos;
+select e.nombre from equipos e inner join partidos p on p.id_equipo2=e.id_equipos where p.id_partidos=1;
+select * from torneo;
+select * from equipos;
+update equipos set nombre='Equipo_2_T1' where id_equipos=2; 
+select * from partidos;
+select * from jugadores;
+use torneos;
+select nombre from equipos where id_partidos=1;
+delete from partidos where id_partidos>26;
+delete from jugadores where id_equipo=75;
+
+select count(*) from partidos where id_torneo=1 and estado='finalizado';
+
+update equipos set Posicion_sorteo=0 where id_equipos>0;
+update jugadores set goles=goles+1 where id_equipo=23 and num_camiseta=1;
+update jugadores set goles=0 where id_jug>0;
+update jugadores set asistencias=0 where id_jug>0;
+update jugadores set rojas=0 where id_jug>0;
+update jugadores set amarillas=0 where id_jug>0;
+update partidos set  resultado=null where id_partidos=1;
+
+update partidos set goles_equipo1=goles_equipo1-1 where id_equipo1=115 and id_torneo=6;
+INSERT INTO equipos (num_equipo, id_torneo, nombre, Posicion_sorteo, octavos) VALUES
+(1, 6, 'Boca Juniors', 0, 'S'),
+(2, 6, 'River Plate', 0, 'S'),
+(3, 6, 'Independiente', 0, 'S'),
+(4, 6, 'Racing Club', 0, 'S'),
+(5, 6, 'San Lorenzo', 0, 'S'),
+(6, 6, 'Vélez Sarsfield', 0, 'S'),
+(7, 6, 'Estudiantes LP', 0, 'S'),
+(8, 6, 'Gimnasia LP', 0, 'S'),
+(9, 6, 'Rosario Central', 0, 'S'),
+(10, 6, 'Newell''s Old Boys', 0, 'S'),
+(11, 6, 'Huracán', 0, 'S'),
+(12, 6, 'Argentinos Juniors', 0, 'S'),
+(13, 6, 'Tigre', 0, 'S'),
+(14, 6, 'Lanús', 0, 'S'),
+(15, 6, 'Defensa y Justicia', 0, 'S'),
+(16, 6, 'Banfield', 0, 'S');
+
+select e.nombre ,e.id_equipos  from equipos e inner join partidos p on e.id_equipos=p.id_equipo2 where e.id_torneo=6 and p.num_partido=1;
+
+select e.nombre, p.goles_equipo1 from equipos e inner join partidos p on e.id_equipos=p.id_equipo1 where p.num_partido=1 and e.id_torneo=1;
+	
