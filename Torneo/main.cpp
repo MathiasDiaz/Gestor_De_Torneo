@@ -55,6 +55,8 @@ int main(){
 			idTorneo=pedirTorneo();
 			s1<<idTorneo;
 			
+			
+			    
 			consultaJugar="select count(*) from partidos where id_torneo="+s1.str()+ " and estado='finalizado'";
 			
 			if(mysql_query(obj,consultaJugar.c_str())==0){
