@@ -36,11 +36,12 @@ void conectar_base();
 
 //Prototipo de funciones para que se jueguen los partidos
 void partidoOctavos(int idTorneo);
-void partidoCuartos(int idTorneo);
-void partidoSemis(int idTorneo);
+void partidoCuartos(int idTorneo,string ronda);
+void partidoSemis(int idTorneo,string ronda);
 void semiFinal2();
-void partidoFinal(int idTorneo);
-void ganador();
+void partidoFinal(int idTorneo,string ronda);
+void visualizarTorneo(int idTorneo,string ronda);
+
 
 int pedirTorneo();
 
@@ -52,15 +53,14 @@ void flechas (int Fx1, int Fy1, int Fx2, int Fy2,int Fx3);
 void flechasInversa (int Fx1, int Fy1, int Fx2, int Fy2,int Fx3);
 void barraDeCarga(int x, int y);
 void visualizarTorneo();
-
+void estadisticas();
 //Prototipo de funciones que contiene los cuadros y flechas
 void octavosFinal();
 void cuartosFinal();
 void semiFinal();
 void Final();
 
-//Prototipo de funciones para manejo de archivos
-//void crearTorneo();
-//void mezclarEquipos();
+
+void mezclar(vector<int> &v, int limite);
 
 #endif

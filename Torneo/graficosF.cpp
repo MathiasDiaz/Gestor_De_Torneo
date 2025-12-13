@@ -183,8 +183,7 @@ void flechasInversa (int Fx1,int Fy1,int Fx2,int Fy2,int Fx3){
 	}
 }
 
-void visualizarTorneo(){
-	int idTorneo;
+void visualizarTorneo(int idTorneo,string ronda){
 	stringstream s1,s2;
 	string consulta1,validacion;
 	int X=1,Y=1,X2=1,Y2=6,GX=26,GY=3.5;
@@ -192,53 +191,90 @@ void visualizarTorneo(){
 	MYSQL_ROW row;
 	string equipoLocal,equipoVisitante;
 	int gol1,gol2;
-	int i=1;
+	int i=1,j=1;
 	int fin;
 	bool val=true;
 		
-	idTorneo=pedirTorneo();
 	s1<<idTorneo;
 	
 	system("cls");
-	octavosFinal();
-	cuartosFinal();
-	validacion= "select count(*) from partidos where id_torneo="+s1.str()+ " and estado='finalizado'";
-	if(mysql_query(obj,validacion.c_str())==0){
-		res=mysql_store_result(obj);
+	if (ronda=="octavos"){
+    	i=1;
+    	X=1;
+    	Y=1;
+    	X2=1;
+    	Y2=6;
+    	GX=26;
+    	GY=3.5;
+    	octavosFinal();
+    	cuartosFinal();
+	}else if (ronda=="cuartos"){
+    	i=9;
+    	X=26;
+    	Y=3.5;
+    	X2=26;
+    	Y2=13.5;
+    	GX=51;
+    	GY=8.5;
+    	cuartosFinal();
+    	semiFinal2();
+	}else if (ronda=="semis"){
+    	i=13;
+    	X=6;
+    	X2=6;
+    	Y=8.5;
+    	Y2=28.5;
+    	GX=36;
+    	GY=18.5;
+    	semiFinal();
+    	Final();
+	}else{
+    	cout<<"ERROR: error inesperado.";
 	}
+	validacion= "select count(*) from partidos where id_torneo="+s1.str()+ " and estado='finalizado'";
+	
+	if(mysql_query(obj,validacion.c_str())==0){
+   		res=mysql_store_result(obj);
+	}
+
 	row=mysql_fetch_row(res);
 	fin=atoi(row[0]);
-	
-	while (i<fin) {
-	s2.str(""); s2.clear();	
-	s2<<i;
-	
+
+	if (fin>0){
+
+    while (j<=fin) {
+        s2.str(""); s2.clear();
+        s2<<j;
+			
 	consulta1= "select e.nombre,goles_equipo1 from equipos e inner join partidos p on e.id_equipos=p.id_equipo1 where p.num_partido="+ s2.str()+" and e.id_torneo="+s1.str();
 	
 	if(mysql_query(obj,consulta1.c_str())==0){
-		res=mysql_store_result(obj);
-	}
-	row=mysql_fetch_row(res);
-	equipoLocal=row[0];
-	gol1=atoi(row[1]);
-	
-	mysql_free_result(res);
-	
+            res=mysql_store_result(obj);
+        }
+
+    row=mysql_fetch_row(res);
+    equipoLocal=row[0];
+    gol1=atoi(row[1]);
+
+    mysql_free_result(res);
+    
 	consulta1= "select e.nombre, goles_equipo2 from equipos e inner join partidos p on e.id_equipos=p.id_equipo2 where p.num_partido="+ s2.str()+" and e.id_torneo="+s1.str();
 	
+	
 	if(mysql_query(obj,consulta1.c_str())==0){
-		res=mysql_store_result(obj);
-	}
-	row=mysql_fetch_row(res);
-	equipoVisitante=row[0];
-	gol2=atoi(row[1]);
-	
-  	gotoxy(X,Y);
-	cout << equipoLocal << " " <<gol1;
-	gotoxy(X2,Y2);
-	cout << equipoVisitante << " "<<gol2;
-	
-	
+            res=mysql_store_result(obj);
+        }
+
+        row=mysql_fetch_row(res);
+        equipoVisitante=row[0];
+        gol2=atoi(row[1]);
+        j=j+1;
+
+        gotoxy(X,Y);
+        cout << equipoLocal << " " <<gol1;
+        gotoxy(X2,Y2);
+        cout << equipoVisitante << " " <<gol2;
+        
 	if(gol1>gol2){
 		gotoxy(GX,GY);
 		cout<<equipoLocal;
@@ -258,7 +294,6 @@ void visualizarTorneo(){
 		GY=GY+20;
 		i=i+1;
 	}else{
-		cout<<"Holi";
 		i=i+1;
 	}
 	
@@ -294,11 +329,39 @@ void visualizarTorneo(){
 	if(i==13){
 		getch();
 		system("cls");
+		semiFinal();
+		Final();
+		X=6;
+		X2=6;
+		Y=8.5;
+		Y2=28.5;
+		GX=36,
+		GY=18.5;
+	}
+	if(i==14){
+		X=131;
+		X2=131;
+		Y=8.5;
+		Y2=28.5;
+		GX=101;
+		GY=18.5;
+	}
+	if(i==15){
+		X=36;
+		X2=101;
+		Y=18.5;
+		Y2=18.5;
+		GX=68.5;
+		GY=18.5;
 	}
 		
 	}
 
 	getch();
 	system("cls");
-	
+}else{
+	system("cls");
+	cout<<"No se jugo ningun partido.";
+	getch();
+}
 }
